@@ -3,6 +3,7 @@
 #   Authors:     BaiYuan <395642104@qq.com>
 ##########################################################################################################
 
+import ctypes
 import cv2
 import keyboard
 import time
@@ -274,7 +275,20 @@ class FishBot:
         
         print("自动钓鱼已停止")
 
+    @staticmethod
+    def is_admin():
+        """检查当前是否以管理员权限运行"""
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin()
+        except Exception as e:
+            print(f"权限检查失败: {str(e)}")
+            return False
+
 
 if __name__ == "__main__":
 
-    FishBot().mainLoop()
+    bot = FishBot()
+    if not bot.is_admin():
+        print("程序需要管理员权限运行, 请以管理员权限重启终端")
+    else:
+        bot.mainLoop()

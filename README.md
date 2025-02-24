@@ -41,7 +41,13 @@
 
    关于conda和pip的使用方法请百度搜索
 
+   另外, paddleocr安装时可能会覆盖numpy版本, 你可能需要先安装paddleocr再安装numpy
    
+   如果出现numpy的import错误, 可以尝试更新numpy
+   
+   ```
+   conda update numpy
+   ```
 
 ## 3 运行代码
 
@@ -55,6 +61,13 @@
 
    ```
    python main.py
+   ```
+
+   需要以**管理员权限**打开终端才能运行, 否则出现下面错误:
+
+   ```
+   (base) PS C:\Users\风白> python D:\Tool\Admin\ZZZautoPara\fish\main.py
+   程序需要管理员权限运行, 请以管理员权限重启终端
    ```
 
    出现类似于下面的输出代表代码正常运行:
@@ -75,6 +88,7 @@
    ```
 
 4. 再点击一下绝区零窗口, 确保是zzz程序处在最前端并被操作, 代码运行期间不能移动窗口
+
 5. 如需停止, **按F10即可**
 
 ## 4 注意事项
