@@ -1,6 +1,7 @@
 ##########################################################################################################
 #   Description: 钓鱼主程序
 #   Authors:     BaiYuan <395642104@qq.com>
+#   Modifier:    Jac0b_Shi <shitian_xiang@shu.edu.cn>
 ##########################################################################################################
 
 import ctypes
@@ -20,7 +21,7 @@ import numpy as np
 rootDir = Path(__file__).parent.resolve()
 paddleOCRModlePath = rootDir / ".paddleocr"
 
-FISH_DELAY_TIME = 1.3 # 等待上鱼的wait时间
+FISH_DELAY_TIME = 0.85 # 等待上鱼的wait时间
 
 class FishBot:
     """基于OCR实现的ZZZ钓鱼机器人
@@ -42,17 +43,20 @@ class FishBot:
             self.ocr = PaddleOCR(det_model_dir = str(paddleOCRModlePath / "whl" / "det"/ "ch"/ "ch_PP-OCRv4_det_infer"), 
                         rec_model_dir = str(paddleOCRModlePath / "whl" / "rec" / "ch" / "ch_PP-OCRv4_rec_infer"), 
                         cls_model_dir = str(paddleOCRModlePath / "whl" / "cls" / "ch_ppocr_mobile_v2.0_cls_infer"),
-                        lang = 'ch', show_log = False)
+                        lang = 'ch', show_log = False, use_angle_cls=False)
 
         except Exception as e:
             print(f"ocr模型初始化失败:{str(e)}")
             raise e
         
         # 窗口控制参数
+        # 先尝试查找国服窗口，若未找到则查找国际服窗口
         self.hwnd = win32gui.FindWindow(None, "绝区零")
         if not self.hwnd:
-            raise Exception("游戏窗口未找到，请先启动游戏")
-        
+            self.hwnd = win32gui.FindWindow(None, "ZenlessZoneZero")
+            if not self.hwnd:
+                raise Exception("游戏窗口未找到，请先启动国服或国际服客户端")
+
     def captureWinodow(self):
         """捕获图像
         """
@@ -86,7 +90,7 @@ class FishBot:
                     if attempt == 2:
                         raise
                     print(f"截图失败第{attempt+1}次尝试...")
-                    time.sleep(0.1)
+                    time.sleep(0.05)
                     
         except Exception as e:
             print(f"最终截图失败：{str(e)}")
@@ -125,7 +129,7 @@ class FishBot:
             return []
         
     # =============== 基本操作函数 =============== #
-    def holdKey(self, key: str, duration: int):
+    def holdKey(self, key: str, duration: float):
         """稳定长按
 
         :param key: 按键名称
@@ -144,9 +148,9 @@ class FishBot:
         """        
         for _ in range(times):
             keyboard.press(key)
-            time.sleep(0.02 + random.random()*0.03)
+            time.sleep(0.01 + random.random()*0.01)
             keyboard.release(key)
-            time.sleep(0.05 + random.random()*0.1)
+            time.sleep(0.02 + random.random()*0.01)
 
     def tabKey(self, key: str):
         """点击按键一次
@@ -208,19 +212,23 @@ class FishBot:
 
             elif self.newState == "连点a":
                 print(f"STATE= \"{self.newState}\", 进行连点A处理")
-                self.spamKey(key = "a", times = 10)
+                self.spamKey(key = "a", times = 16)
+                self.tabKey(key="space")
 
             elif self.newState == "连点d":
                 print(f"STATE= \"{self.newState}\", 进行连点D处理")
-                self.spamKey(key = "d", times = 10)
+                self.spamKey(key = "d", times = 16)
+                self.tabKey(key="space")
 
             elif self.newState == "长按a":
                 print(f"STATE= \"{self.newState}\", 进行长按A处理")
-                self.holdKey(key = "a", duration = 3)
+                self.holdKey(key = "a", duration = 2.4)
+                self.tabKey(key="space")
 
             elif self.newState == "长按d":
                 print(f"STATE= \"{self.newState}\", 进行长按D处理")
-                self.holdKey(key = "d", duration = 3)
+                self.holdKey(key = "d", duration = 2.4)
+                self.tabKey(key="space")
 
             elif self.newState == "restart":
                 self.fishNum += 1

@@ -14,7 +14,7 @@
 
    ```
    conda install keyboard
-   conda install numpy
+   conda install numpy==1.26.4
    conda install opencv
    conda install pillow
    conda install pyautogui
@@ -25,14 +25,14 @@
 
    ```
    pip install paddlepaddle
-   pip install paddleocr==2.7.3
+   pip install paddleocr
    ```
 
     如果是pip环境, 把上面的conda install改成pip install即可
 
    ```
    pip install keyboard
-   pip install numpy
+   pip install numpy==1.26.4
    pip install opencv
    pip install pillow
    pip install pyautogui
@@ -43,17 +43,15 @@
 
    另外, paddleocr安装时可能会覆盖numpy版本, 你可能需要先安装paddleocr再安装numpy
    
-   如果出现numpy的import错误, 可以尝试更新numpy
+   如果出现numpy的import错误, 注意numpy不能是2.0以上的版本
    
-   ```
-   conda update numpy
-   ```
+   
 
 ## 3 运行代码
 
 ​	配好环境后, 按下面步骤运行代码即可
 
-1. 打开"绝区零.exe", 推荐将分辨率调整到1280*720窗口, 其他分辨率应该也可以运行
+1. 打开绝区零
 
 2. 将场景移动到钓鱼界面, 石礁钓点和近海钓点均可
 
