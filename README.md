@@ -8,7 +8,7 @@
 
 ## 2 运行环境
 
-1. 项目使用python3.12.3开发, 其他版本python可能也可, 可以尝试
+1. 项目使用python3.12.3开发, 其他版本3.12.x版本的python也可, 3.13.x版本python实测不支持
 
 2. 项目依赖部分三方库, 如果是conda环境, 使用下面命令安装:
 
@@ -19,17 +19,18 @@
    conda install pillow
    conda install pyautogui
    conda install pywin32
+   conda install setuptools
    ```
-
+   
    paddleocr经过验证无法用conda安装, 改用pip安装也能用
-
+   
    ```
    pip install paddlepaddle
    pip install paddleocr
    ```
-
+   
     如果是pip环境, 把上面的conda install改成pip install即可
-
+   
    ```
    pip install keyboard
    pip install numpy==1.26.4
@@ -37,10 +38,11 @@
    pip install pillow
    pip install pyautogui
    pip install pywin32
+   pip install setuptools
    ```
 
    关于conda和pip的使用方法请百度搜索
-
+   
    另外, paddleocr安装时可能会覆盖numpy版本, 你可能需要先安装paddleocr再安装numpy
    
    如果出现numpy的import错误, 注意numpy不能是2.0以上的版本
