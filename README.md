@@ -2,7 +2,7 @@
 
 ## 1 项目简介
 
-使用paddleocr实现的zzz自动化钓鱼工具, 能够在钓鱼界面实现自动化的状态识别, 并持续钓鱼, 直到用户停止
+使用paddleocr实现的zzz自动化钓鱼工具, 能够在钓鱼界面实现自动化的状态识别, 并持续钓鱼, 直到用户按下F10停止。现已适配ZZZ 2.1版本夏活钓鱼。
 
 
 
@@ -22,14 +22,16 @@
    conda install setuptools
    ```
    
-   paddleocr经过验证无法用conda安装, 改用pip安装也能用
+   paddleocr经过验证无法用conda安装, 改用pip安装也能用。
+   
+   paddleocr必须使用2.x版本，该项目未适配3.x的paddleocr。
    
    ```
    pip install paddlepaddle
-   pip install paddleocr
+   pip install paddleocr==2.10.0
    ```
    
-    如果是pip环境, 把上面的conda install改成pip install即可
+    如果是pip环境, 把上面的conda install改成pip install即可。
    
    ```
    pip install keyboard
@@ -40,12 +42,12 @@
    pip install pywin32
    pip install setuptools
    ```
-
-   关于conda和pip的使用方法请百度搜索
    
-   另外, paddleocr安装时可能会覆盖numpy版本, 你可能需要先安装paddleocr再安装numpy
+   关于conda和pip的使用方法请自行百度搜索！
    
-   如果出现numpy的import错误, 注意numpy不能是2.0以上的版本
+   另外, paddleocr安装时可能会覆盖numpy版本, 你可能需要先安装paddleocr再安装numpy！
+   
+   如果出现numpy的import错误, 注意numpy不能是2.0以上的版本！
    
    
 

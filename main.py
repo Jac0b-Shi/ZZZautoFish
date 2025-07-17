@@ -21,7 +21,8 @@ import numpy as np
 rootDir = Path(__file__).parent.resolve()
 paddleOCRModlePath = rootDir / ".paddleocr"
 
-FISH_DELAY_TIME = 0.85 # 等待上鱼的wait时间
+FISH_DELAY_TIME = 0.5 # 等待上鱼的wait时间
+ACCURATE_DELAY_TIME = 0.2 # 准确点击F的延时
 
 class FishBot:
     """基于OCR实现的ZZZ钓鱼机器人
@@ -121,6 +122,10 @@ class FishBot:
                 ocrList.append("连点a")
             elif "连点" in ocrList and "d" in ocrList:
                 ocrList.append("连点d")
+            elif "长按" in ocrList and "f" in ocrList:
+                ocrList.append("长按f")
+            elif "准确点击" in ocrList and "f" in ocrList:
+                ocrList.append("准确点击f")
 
             return ocrList
 
@@ -170,10 +175,12 @@ class FishBot:
         # 获取状态
         stateMap = [
             ("点击按键抛竿", "idle"),
+            ("点击f按键抛竿", "idle"),
             ("等待上鱼", "wait"),
             ("等待上", "wait"),
-            ("正确时机点击按键上鱼", "wait2"),
-            ("正确时机点击按键上", "wait2"),
+            ("正确时机点击f按键上鱼", "wait2"),
+            ("正确时机点击·按键上鱼", "wait2"),
+            ("正确时机点击", "wait2"),
             ("正确时机", "wait2"),
             ("点击空白处关闭", "restart"),
             ("鱼跑了！", "fail"),
@@ -182,6 +189,17 @@ class FishBot:
             ("连点d", "连点d"),
             ("长按a", "长按a"),
             ("长按d", "长按d"),
+            ("拿下这条大鱼！", "连点f"),
+            ("用技巧拿下它！", "连点f"),
+            ("集中一处发力！", "连点f"),
+            ("集中一处发", "连点f"),
+            ("它变得乏力了！", "连点f"),
+            ("时机已到！", "连点f"),
+            ("做好准备！", "连点f"),
+            ("长按f按钮", "长按f"),
+            ("长按按钮", "长按f"),
+            ("长按日按钮", "长按f"),
+            ("准确点击f按钮", "准确点击f"),
         ]
 
         for prompt, state in reversed(stateMap):
@@ -228,6 +246,24 @@ class FishBot:
             elif self.newState == "长按d":
                 print(f"STATE= \"{self.newState}\", 进行长按D处理")
                 self.holdKey(key = "d", duration = 2.4)
+                self.tabKey(key="space")
+
+            elif self.newState == "连点f":
+                print(f"STATE= \"{self.newState}\", 进行连点F处理")
+                time.sleep(0.8)
+                self.spamKey(key="f", times=35)
+                self.tabKey(key="space")
+
+            elif self.newState == "长按f":
+                print(f"STATE= \"{self.newState}\", 进行长按F处理")
+                self.holdKey(key = "f", duration = 2.8)
+                self.tabKey(key="space")
+
+            elif self.newState == "准确点击f":
+                print(f"STATE= \"{self.newState}\", 进行准确点击F处理")
+                time.sleep(ACCURATE_DELAY_TIME)
+                self.tabKey(key = "f")
+                time.sleep(0.1)
                 self.tabKey(key="space")
 
             elif self.newState == "restart":
