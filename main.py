@@ -21,8 +21,8 @@ import numpy as np
 rootDir = Path(__file__).parent.resolve()
 paddleOCRModlePath = rootDir / ".paddleocr"
 
-FISH_DELAY_TIME = 0.5 # 等待上鱼的wait时间
-ACCURATE_DELAY_TIME = 0.2 # 准确点击F的延时
+FISH_DELAY_TIME = 0.45 # 等待上鱼的wait时间
+ACCURATE_DELAY_TIME = 0.16 # 准确点击F的延时
 
 class FishBot:
     """基于OCR实现的ZZZ钓鱼机器人
@@ -194,12 +194,13 @@ class FishBot:
             ("集中一处发力！", "连点f"),
             ("集中一处发", "连点f"),
             ("它变得乏力了！", "连点f"),
-            ("时机已到！", "连点f"),
-            ("做好准备！", "连点f"),
+            ("它进入疲态了！", "连点f"),
+            ("待定文本", "连点f"),
             ("长按f按钮", "长按f"),
             ("长按按钮", "长按f"),
             ("长按日按钮", "长按f"),
             ("准确点击f按钮", "准确点击f"),
+            ("渔获仓库", "仓库"),
         ]
 
         for prompt, state in reversed(stateMap):
@@ -225,7 +226,7 @@ class FishBot:
 
             elif self.newState == "wait2":
                 print(f"STATE= \"{self.newState}\", 准备在恰当时机点按F上鱼")
-                time.sleep(FISH_DELAY_TIME)
+                time.sleep(FISH_DELAY_TIME + random.uniform(-0.07, 0.01))
                 self.tabKey(key = "f")
 
             elif self.newState == "连点a":
@@ -250,7 +251,7 @@ class FishBot:
 
             elif self.newState == "连点f":
                 print(f"STATE= \"{self.newState}\", 进行连点F处理")
-                time.sleep(0.8)
+                time.sleep(1)
                 self.spamKey(key="f", times=35)
                 self.tabKey(key="space")
 
@@ -261,9 +262,8 @@ class FishBot:
 
             elif self.newState == "准确点击f":
                 print(f"STATE= \"{self.newState}\", 进行准确点击F处理")
-                time.sleep(ACCURATE_DELAY_TIME)
+                time.sleep(ACCURATE_DELAY_TIME + random.uniform(-0.08, 0.03))
                 self.tabKey(key = "f")
-                time.sleep(0.1)
                 self.tabKey(key="space")
 
             elif self.newState == "restart":
@@ -271,8 +271,11 @@ class FishBot:
                 print(f"STATE= \"{self.newState}\", 钓鱼成功, 当前已成功钓鱼 \"{self.fishNum}\" 次")
 
                 for _ in range(4):
-                    x = self.window['left'] + random.randint(100, self.window['width'] - 100)
-                    y = self.window['top'] + random.randint(100, self.window['height'] - 100)
+                    # 计算中心区域范围（示例：中心50%区域）
+                    center_width = self.window['width'] // 4
+                    center_height = self.window['height'] // 4
+                    x = self.window['left'] + self.window['width']//2 + random.randint(-center_width, center_width)
+                    y = self.window['top'] + self.window['height']//2 + random.randint(-center_height, center_height)
                     pyautogui.click(x, y)
                     time.sleep(random.uniform(0.1, 0.3))
 
